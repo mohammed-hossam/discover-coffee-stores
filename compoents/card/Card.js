@@ -3,13 +3,14 @@ import Image from 'next/image';
 import React from 'react';
 
 import styles from './card.module.css';
+// import '../../styles/globals.css';
 
 function Card(props) {
   return (
     <Link href={props.href}>
       <a className={styles.cardLink}>
-        {/* <div className={cls('glass', styles.container)}> */}
-        <div className={styles.container}>
+        <div className={['glass', styles.container].join(' ')}>
+          {/* <div className={styles.container}> */}
           <div className={styles.cardHeaderWrapper}>
             <h2 className={styles.cardHeader}>{props.name}</h2>
           </div>
