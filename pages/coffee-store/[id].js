@@ -19,25 +19,55 @@ function CoffeeStore(initialProps) {
   const {
     state: { coffeeStores },
   } = useContext(ContextStore);
+  const { address, name, neighbourhood, imgUrl } = coffeeStore;
+
+  async function handleCreateCoffeeStore(coffeeStore) {
+    try {
+      const { id, name, voting, imgUrl, neighbourhood, address } = coffeeStore;
+      const response = await fetch('/api/createCoffeeStore', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          voting: 0,
+          imgUrl,
+          neighbourhood: neighbourhood || '',
+          address: address || '',
+        }),
+      });
+
+      const dbCoffeeStore = await response.json();
+    } catch (err) {
+      console.error('Error creating coffee store', err);
+    }
+  }
 
   useEffect(() => {
-    console.log(coffeeStore);
-    if (isEmpty(coffeeStore)) {
-      console.log(coffeeStores);
+    //hena lw el sf7a mknsh m3molha ssg w lsa gdeda
+    if (isEmpty(initialProps.coffeeStore)) {
       if (coffeeStores.length > 0) {
         const coffeeStoreFromContext = coffeeStores.find(
           (el) => el.id.toString() === id
         );
-        setCoffeeStore(coffeeStoreFromContext);
+        if (coffeeStoreFromContext && isEmpty(coffeeStore)) {
+          setCoffeeStore(coffeeStoreFromContext);
+          handleCreateCoffeeStore(coffeeStoreFromContext);
+        }
       }
+    } else {
+      // SSG
+      //hena 3mlna kda bs 3shan el voting button, fa kda heya fl 2wel el mfrod tege mn el ssg w b3d kda tege mn el database 3shan sglnaha 3leh 3shan el voting ykon mtsgl
+      handleCreateCoffeeStore(initialProps.coffeeStore);
     }
-  }, [id, coffeeStore, coffeeStores]);
+  }, [id, coffeeStore, coffeeStores, initialProps.coffeeStore]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
-  const { address, name, neighbourhood, imgUrl } = coffeeStore;
   return (
     <div className={styles.layout}>
       <Head>
