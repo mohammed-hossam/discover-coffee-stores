@@ -2,7 +2,7 @@ import { table } from '../../lib/airtable';
 
 export default async function getCoffeeStoreById(req, res) {
   try {
-    const { id } = req.id;
+    const { id } = req.query;
     if (id) {
       const findRecordById = await table
         .select({

@@ -23,12 +23,11 @@ export default function Home(props) {
 
   useEffect(() => {
     async function clientsideCoffeeStores() {
-      console.log(1111);
       if (state.latLng) {
         //if condition 3shan 2wel mara el component y3ml render wel useEffect tsht8l, mt3mlsh 7aga.
         try {
           const coffeeStores = await fetchCoffeeStores(state.latLng, 50);
-          console.log(coffeeStores);
+          // console.log(coffeeStores);
           // setCoffeeStores(coffeeStores);
           dispatch({
             type: actions.SET_COFFEE_STORES,
